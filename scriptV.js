@@ -1,4 +1,12 @@
  // FAKE DATABASE 4 NOW
+const tg = window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+
+const user = tg.initDataUnsafe.user;
+if (user) {
+  document.getElementById("userName").textContent = "👋 " + user.first_name;
+}
     const gifts = [
       { id: 1, name: "Pharaoh",     price: 99.9,  serial: "#1042", emoji: "🏺", color: "#f5b82e" },
       { id: 2, name: "Redo",        price: 631.3, serial: "#0077", emoji: "🔄", color: "#c9c9d1" },
