@@ -40,7 +40,7 @@ if (user) {
       }
 
       grid.innerHTML = list.map(g => `
-        <div class="card" style="background:${g.color}">
+        <div class="card" style="--c:${g.color}">
           <div class="serial">${g.serial}</div>
           <div class="art">${g.emoji}</div>
           <h3>${g.name}</h3>
