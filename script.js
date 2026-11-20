@@ -17,7 +17,7 @@ if (user) {
     ];
 
     // ---------- STATE ----------
-    let favorites = [];
+    let favorites = JSON.parse(localStorage.getItem("favs") || "[]");;
     let tab = "all";
     let sort = "default";
     let query = "";
@@ -56,6 +56,7 @@ if (user) {
     function toggleFav(id) {
       if (favorites.includes(id)) favorites = favorites.filter(f => f !== id);
       else favorites.push(id);
+      localStorage.setItem("favs", JSON.stringify(favorites));
       render();
     }
 
