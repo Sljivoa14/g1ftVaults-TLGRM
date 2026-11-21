@@ -1,32 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>GiftVault</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <link rel="stylesheet" href="styles.css">
-    
 </head>
 
 <body>
 
   <header>
     <h1>🎁 GiftVault</h1>
-    <div class="balance" id="userName">💎 0.0 TON</div>
+    <div class="balance" id="balance">💎 0.0</div>
   </header>
 
-  <input class="search" id="search" placeholder="Search gifts...">
+  <!-- ========== MARKET ========== -->
+  <section class="view active" id="view-market">
+    <input class="search" id="search" placeholder="Search gifts...">
 
-  <div class="chips">
-    <button class="chip active" data-tab="all">All</button>
-    <button class="chip" data-tab="fav">Favorites</button>
-  </div>
+    <div class="chips">
+      <button class="chip active" data-tab="all">All</button>
+      <button class="chip" data-tab="fav">Favorites</button>
+    </div>
 
-  <div id="grid"></div>
+    <div id="grid"></div>
 
-  <button class="filter-btn" id="openFilter">☰ Filter</button>
+    <button class="filter-btn" id="openFilter">☰ Filter</button>
+  </section>
 
+  <!-- ========== INVENTORY ========== -->
+  <section class="view" id="view-inventory">
+    <div class="panel stat-bar" id="invStats"></div>
+    <div id="invGrid"></div>
+  </section>
+
+  <!-- ========== UPGRADE ========== -->
+  <section class="view" id="view-upgrade">
+    <div id="upgradeBox"></div>
+  </section>
+
+  <!-- ========== PROFILE ========== -->
+  <section class="view" id="view-profile">
+    <div id="profileBox"></div>
+  </section>
+
+  <!-- sort sheet (market) -->
   <div id="sheet">
     <h2>Sort by</h2>
     <button class="opt active" data-sort="default">Default</button>
@@ -34,14 +53,14 @@
     <button class="opt" data-sort="high">Price: high to low</button>
   </div>
 
+  <!-- bottom nav -->
   <nav>
-    <div class="active"><span>🛒</span>Market</div>
-    <div><span>🎒</span>Inventory</div>
-    <div><span>⚡</span>Upgrade</div>
-    <div><span>👤</span>Profile</div>
+    <div class="tab active" data-view="market"><span>🛒</span>Market</div>
+    <div class="tab" data-view="inventory"><span>🎒</span>Inventory</div>
+    <div class="tab" data-view="upgrade"><span>⚡</span>Upgrade</div>
+    <div class="tab" data-view="profile"><span>👤</span>Profile</div>
   </nav>
 
   <script src="script.js"></script>
-
 </body>
 </html>
