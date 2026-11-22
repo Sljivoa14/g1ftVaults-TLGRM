@@ -11,8 +11,8 @@
 <body>
 
   <header>
-    <h1>🎁 GiftVault</h1>
-    <div class="balance" id="balance">💎 0.0</div>
+    <h1><span class="logo" data-ico="gift"></span>GiftVault</h1>
+    <div class="balance"><span data-ico="gem"></span><span id="balanceVal">0.0</span></div>
   </header>
 
   <!-- ========== MARKET ========== -->
@@ -26,7 +26,7 @@
 
     <div id="grid"></div>
 
-    <button class="filter-btn" id="openFilter">☰ Filter</button>
+    <button class="filter-btn" id="openFilter"><span data-ico="filter"></span>Filter</button>
   </section>
 
   <!-- ========== INVENTORY ========== -->
@@ -53,12 +53,24 @@
     <button class="opt" data-sort="high">Price: high to low</button>
   </div>
 
+  <!-- upgrade reveal -->
+  <div class="reveal" id="reveal">
+    <div class="reveal-flash"></div>
+    <div class="reveal-inner">
+      <div class="reveal-art" id="revArt"></div>
+      <div class="reveal-rarity" id="revRarity"></div>
+      <div class="reveal-name" id="revName"></div>
+      <div class="reveal-value" id="revValue"></div>
+      <button class="big-btn" id="revClose">Nice!</button>
+    </div>
+  </div>
+
   <!-- bottom nav -->
   <nav>
-    <div class="tab active" data-view="market"><span>🛒</span>Market</div>
-    <div class="tab" data-view="inventory"><span>🎒</span>Inventory</div>
-    <div class="tab" data-view="upgrade"><span>⚡</span>Upgrade</div>
-    <div class="tab" data-view="profile"><span>👤</span>Profile</div>
+    <div class="tab active" data-view="market"><span data-ico="market"></span>Market</div>
+    <div class="tab" data-view="inventory"><span data-ico="inventory"></span>Inventory</div>
+    <div class="tab" data-view="upgrade"><span data-ico="upgrade"></span>Upgrade</div>
+    <div class="tab" data-view="profile"><span data-ico="profile"></span>Profile</div>
   </nav>
 
   <script src="script.js"></script>
