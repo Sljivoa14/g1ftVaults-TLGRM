@@ -2,13 +2,14 @@
 from pathlib import Path
 
 from PIL import Image
-from rembg import remove
+from rembg import remove, new_session
 
 RAW = Path("gifts_raw")
 OUT = Path("gifts")
 MAX_SIZE = 512  # longest side in pixels, keeps the files small and fast
 
 OUT.mkdir(exist_ok=True)
+session = new_session("isnet-general-use")
 
 if not RAW.exists():
     RAW.mkdir()
@@ -24,8 +25,8 @@ if not files:
 for path in files:
     print("Processing", path.name)
 
-    img = Image.open(path).convert("RGBA")
-    cut = remove(img)  # background removed, transparent PNG-style image
+    img.thumbnail((768, 768), Image.LANCZOS)
+    cut = remove(img, session=session) # background removed, transparent PNG-style image
 
     # trim the empty transparent border so the character fills the image
     bbox = cut.split()[-1].getbbox()
