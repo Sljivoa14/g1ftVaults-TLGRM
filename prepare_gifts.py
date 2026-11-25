@@ -1,21 +1,4 @@
-"""
-GiftVault image prep: cuts the background off your AI images and makes
-small transparent WebP files the app can float.
 
-Folder layout (all inside your giftvault folder):
-    gifts_raw/   <- put your original images here: panda.png, fox.png, ...
-    gifts/       <- the cut-out .webp files appear here (created for you)
-
-One time install:
-    pip install "rembg[cpu]" pillow
-
-Run it from the giftvault folder:
-    python prepare_gifts.py
-
-The first run downloads a small AI model (about 170MB), so it needs internet.
-File names matter: panda.png becomes gifts/panda.webp, and the app loads
-gifts/<name>.webp for the gift with that name.
-"""
 from pathlib import Path
 
 from PIL import Image
