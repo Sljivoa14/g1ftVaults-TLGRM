@@ -1,15 +1,28 @@
+"""
+GiftVault image prep: cuts the background off your AI images and makes
+small transparent WebP files the app can float.
 
+Folder layout (all inside your giftvault folder):
+    gifts_raw/   <- your original images: panda.jpg, fox.jpg, ...
+    gifts/       <- the cut-out .webp files appear here
+
+Run it by pressing the play button, or:
+    python prepare_gifts.py
+"""
 from pathlib import Path
 
 from PIL import Image
-from rembg import remove, new_session
+from rembg import new_session, remove
 
-RAW = Path("gifts_raw")
-OUT = Path("gifts")
-MAX_SIZE = 512  # longest side in pixels, keeps the files small and fast
+
+MODEL = "isnet-general-use"
+
+HERE = Path(__file__).parent          # the folder this script lives in
+RAW = HERE / "gifts_raw"
+OUT = HERE / "gifts"
+MAX_SIZE = 512                        # longest side of the final image
 
 OUT.mkdir(exist_ok=True)
-session = new_session("isnet-general-use")
 
 if not RAW.exists():
     RAW.mkdir()
@@ -22,11 +35,15 @@ if not files:
     print("No images found in gifts_raw/")
     raise SystemExit
 
+session = new_session(MODEL)
+
 for path in files:
     print("Processing", path.name)
 
-    img.thumbnail((768, 768), Image.LANCZOS)
-    cut = remove(img, session=session) # background removed, transparent PNG-style image
+    img = Image.open(path).convert("RGBA")
+    img.thumbnail((768, 768), Image.LANCZOS)     # smaller input = less memory
+
+    cut = remove(img, session=session)           # background removed
 
     # trim the empty transparent border so the character fills the image
     bbox = cut.split()[-1].getbbox()
@@ -37,6 +54,6 @@ for path in files:
 
     out_path = OUT / (path.stem.lower() + ".webp")
     cut.save(out_path, "WEBP", quality=90, method=6)
-    print("  saved", out_path, cut.size)
+    print("  saved", out_path.name, cut.size)
 
 print("Done. Commit and push the gifts folder.")
