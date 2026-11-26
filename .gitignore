@@ -1,1 +1,17 @@
+# local only
 gifts_raw/
+.venv/
+__pycache__/
+*.pyc
+
+# prompts / helper scripts (not needed on the site)
+animal-prompts*.md
+make_prompts.py
+
+# secrets
+.env
+*.env
+
+# OS junk
+.DS_Store
+Thumbs.db
