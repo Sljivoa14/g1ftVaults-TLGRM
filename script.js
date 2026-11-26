@@ -496,7 +496,10 @@ document.getElementById("search").addEventListener("input", e => {
   renderMarket();
 });
 
-document.querySelectorAll(".chip").forEach(btn => {
+document.querySelectorAll(".chip:not(.locked)").forEach(btn => {
+  document.querySelectorAll(".chip.locked").forEach(btn => {
+    btn.addEventListener("click", () => { haptic("light"); ask("Coming soon", "New collections are on the way.", [{ type: "close" }]); });
+  });
   btn.addEventListener("click", () => {
     document.querySelectorAll(".chip").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
