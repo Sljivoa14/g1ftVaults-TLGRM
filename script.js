@@ -70,7 +70,25 @@ const CATALOG = [
   { id: 11, img: "eagle",    name: "Eagle",    price: 260, serial: "#4406", color: "#8fa0ff", category: "animals" },
   { id: 12, img: "elephant", name: "Elephant", price: 175, serial: "#3028", color: "#d68cff", category: "animals" },
   { id: 13, img: "horse",    name: "Horse",    price: 95,  serial: "#1859", color: "#a8e04d", category: "animals" },
-  { id: 14, img: "giraffe",  name: "Giraffe",  price: 88,  serial: "#9313", color: "#4dd0ee", category: "animals" }
+  { id: 14, img: "giraffe",  name: "Giraffe",  price: 88,  serial: "#9313", color: "#4dd0ee", category: "animals" },
+  { id: 15, img: "lion",    name: "Lion",    price: 190, serial: "#2764", color: "#ffb347", category: "animals" },
+  { id: 16, img: "penguin", name: "Penguin", price: 65,  serial: "#5390", color: "#6be0e8", category: "animals" },
+  { id: 17, img: "owl",     name: "Owl",     price: 110, serial: "#8127", color: "#7ee0b5", category: "animals" },
+  { id: 18, img: "zebra",   name: "Zebra",   price: 78,  serial: "#4845", color: "#9fb4ff", category: "animals" },
+  { id: 19, img: "rhino",   name: "Rhino",   price: 160, serial: "#1136", color: "#ff8fd0", category: "animals" },
+  { id: 20, img: "hippo",   name: "Hippo",   price: 92,  serial: "#6679", color: "#c9a8ff", category: "animals" },
+  { id: 21, img: "koala", name: "Koala", price: 105, serial: "#3471", color: "#9fd0ff", category: "animals" },
+  { id: 22, img: "sloth", name: "Sloth", price: 58, serial: "#7015", color: "#c9a47a", category: "animals" },
+  { id: 23, img: "raccoon", name: "Raccoon", price: 72, serial: "#2589", color: "#a3adb8", category: "animals" },
+  { id: 24, img: "deer", name: "Deer", price: 98, serial: "#6203", color: "#e0b07a", category: "animals" },
+  { id: 25, img: "shark", name: "Shark", price: 140, serial: "#9954", color: "#6fb0e0", category: "animals" },
+  { id: 26, img: "crocodile", name: "Crocodile", price: 150, serial: "#4332", color: "#6fcf6f", category: "animals" },
+  { id: 27, img: "flamingo", name: "Flamingo", price: 118, serial: "#1198", color: "#ff8fb8", category: "animals" },
+  { id: 28, img: "parrot", name: "Parrot", price: 135, serial: "#5607", color: "#ff6b6b", category: "animals" },
+  { id: 29, img: "hedgehog", name: "Hedgehog", price: 52, serial: "#8820", color: "#b08a6a", category: "animals" },
+  { id: 30, img: "otter", name: "Otter", price: 76, serial: "#3944", color: "#9a6b45", category: "animals" },
+  { id: 31, img: "camel", name: "Camel", price: 85, serial: "#7261", color: "#e0b070", category: "animals" },
+  { id: 32, img: "pig", name: "Pig", price: 45, serial: "#5088", color: "#ff9fbd", category: "animals" }
 ];
 
 const START_OWNED = [1, 7];   // panda + monkey start in your inventory
