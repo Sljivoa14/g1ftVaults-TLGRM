@@ -32,7 +32,9 @@ const ICON = {
   filter:    '<path d="M4 6h16"/><path d="M7 12h10"/><path d="M10 18h4"/>',
   gift:      '<rect x="4" y="10" width="16" height="10" rx="1"/><rect x="3" y="7" width="18" height="3" rx="1"/><path d="M12 7v13"/><path d="M12 7C9 7 7 6 7 4.5S9.5 2.5 11 4l1 3Z"/><path d="M12 7c3 0 5-1 5-2.5S14.5 2.5 13 4l-1 3Z"/>',
   wallet:    '<path d="M3 7h15a3 3 0 0 1 3 3v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/><path d="M3 7l12-3v3"/><path d="M17 14h2"/>',
-  reset:     '<path d="M4 12a8 8 0 1 0 3-6.2"/><path d="M4 4v4h4"/>'
+  reset:     '<path d="M4 12a8 8 0 1 0 3-6.2"/><path d="M4 4v4h4"/>',
+  paw:  '<circle cx="6" cy="11" r="2"/><circle cx="10" cy="6.5" r="2"/><circle cx="14" cy="6.5" r="2"/><circle cx="18" cy="11" r="2"/><path d="M12 12c-3 0-5 3-5 5.5 0 1.6 1.4 2.5 3 2.5 1 0 1.3-.4 2-.4s1 .4 2 .4c1.6 0 3-.9 3-2.5C17 15 15 12 12 12Z"/>',
+  lock: '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'
 };
 const ico = name => '<svg class="ico" viewBox="0 0 24 24">' + ICON[name] + '</svg>';
 
@@ -172,10 +174,10 @@ function cardHTML(g, actions, i = 0, animate = false) {
     : "";
   // --fd: each character floats out of sync with the others
   return `
-    <div class="card${animate ? " pop" : ""}" style="--c:${g.color};--d:${(i * 0.06).toFixed(2)}s;--fd:${(-i * 0.7).toFixed(1)}s">
+      <div class="card${animate ? " pop" : ""}${g.rarity ? " r-" + g.rarity.toLowerCase() : ""}" style="--c:${g.color};--d:${(i * 0.06).toFixed(2)}s;--fd:${(-i * 0.7).toFixed(1)}s">
       <div class="serial">${g.serial}</div>
       ${tag}
-      <div class="art"><div class="shadow"></div>${art(g)}</div>
+      <div class="art"><div class="sparkles"><i></i><i></i><i></i><i></i><i></i></div><div class="shadow"></div>${art(g)}</div>
       <h3>${esc(g.name)}</h3>
       <div class="row">${actions}</div>
     </div>`;
