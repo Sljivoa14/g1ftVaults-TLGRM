@@ -21,6 +21,36 @@ const RARITY = {
   Legendary: { chance: 0.05, mult: 5,   color: "#ffc233" }
 };
 
+// ---------- SERVER ----------
+const API = "https://mnzlraaesdhisrbmplbd.supabase.co/functions/v1/smart-action";
+const ONLINE = !!tg.initData;   // true inside Telegram, false in a normal browser (then demo mode)
+
+async function call(action, giftId) {
+  const r = await fetch(API, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ initData: tg.initData, action, giftId })
+  });
+  const d = await r.json();
+  if (!r.ok) throw new Error(d.error || "Something went wrong");
+  return d;
+}
+
+const norm = g => ({ upgraded: false, rarity: null, ...g, price: Number(g.price) });
+
+function applyState(s) {
+  state.balance = Number(s.balance);
+  state.market = s.market.map(norm);
+  state.inventory = s.inventory.map(norm);
+  save();
+  renderAll();
+}
+
+const fail = e => {
+  haptic("error");
+  ask("Oops", String(e.message || e), [{ type: "close" }]);
+};
+
 // ---------- ICONS (simple line icons, 24x24) ----------
 const ICON = {
   market:    '<path d="M6 8h12l1 12H5L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
@@ -381,6 +411,12 @@ function buy(id) {
     [{ id: "buy", type: "default", text: "Buy" }, { type: "cancel" }],
     btn => {
       if (btn !== "buy") return;
+
+      if (ONLINE) {
+        call("buy", id).then(d => { applyState(d.state); haptic("success"); confetti(); }).catch(fail);
+        return;
+      }
+
       state.balance = round1(state.balance - g.price);
       state.market = state.market.filter(x => x.id !== id);
       state.inventory.push(g);
@@ -403,9 +439,15 @@ function sell(id) {
     [{ id: "sell", type: "default", text: "Sell" }, { type: "cancel" }],
     btn => {
       if (btn !== "sell") return;
+
+      if (ONLINE) {
+        call("sell", id).then(d => { applyState(d.state); haptic("success"); confetti(); }).catch(fail);
+        return;
+      }
+
       state.balance = round1(state.balance + get);
       state.inventory = state.inventory.filter(x => x.id !== id);
-      state.market.push(g); // demo: it goes back on the market
+      state.market.push(g);
       save();
       haptic("success");
       confetti();
@@ -449,6 +491,15 @@ function upgrade() {
     btn => {
       if (btn !== "go") return;
 
+      if (ONLINE) {
+        call("upgrade", g.id).then(d => {
+          applyState(d.state);
+          const up = state.inventory.find(x => x.id === g.id);
+          setTimeout(() => showReveal(up, d.result.rarity), 350);
+        }).catch(fail);
+        return;
+      }
+
       state.balance = round1(state.balance - UPGRADE_FEE);
       const rarity = rollRarity();
       g.rarity = rarity;
@@ -456,8 +507,6 @@ function upgrade() {
       g.price = round1(g.price * RARITY[rarity].mult);
       g.serial = "#" + (Math.floor(Math.random() * 9000) + 1000);
       save();
-
-      // small delay so the confirm popup is fully closed
       setTimeout(() => showReveal(g, rarity), 350);
     });
 }
@@ -637,7 +686,12 @@ document.getElementById("revClose").addEventListener("click", () => {
 // ---------- START ----------
 renderAll();     // fills the other tabs
 showSkeleton();  // market shows shimmer first
-setTimeout(() => {
-  loading = false;       // later: this is where we fetch real data from the backend
-  renderMarket(true);
-}, 800);
+
+if (ONLINE) {
+  call("load")
+    .then(d => applyState(d.state))
+    .catch(fail)
+    .finally(() => { loading = false; renderMarket(true); });
+} else {
+  setTimeout(() => { loading = false; renderMarket(true); }, 800);
+}
