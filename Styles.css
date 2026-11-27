@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Titan+One&display=swap");
 
 /* - BASE - */
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -985,4 +985,89 @@ header h1 { animation: logoGlow 3s ease-in-out infinite alternate; }
   width: auto;
   animation: floaty 3.6s ease-in-out infinite;
   filter: drop-shadow(0 10px 12px rgba(0, 0, 0, 0.4));
+}
+
+
+header h1 { animation: none; text-shadow: none; color: #fff; }
+
+.gv-title {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  gap: 2px;
+  font-family: "Titan One", "Fredoka", sans-serif;
+  font-size: 34px;
+  line-height: 1;
+  letter-spacing: 0.5px;
+  /* white sticker edge around the whole word */
+  filter:
+    drop-shadow(2px 0 0 #fff) drop-shadow(-2px 0 0 #fff)
+    drop-shadow(0 2px 0 #fff) drop-shadow(0 -2px 0 #fff);
+}
+
+.gv-title b {
+  position: relative;
+  display: inline-block;
+  font-weight: 400;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* black outline + hard offset shadow layer behind the letters */
+.gv-title b::before {
+  content: attr(data-t);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  color: #000;
+  -webkit-text-stroke: 9px #000;
+  text-shadow: 3px 5px 0 #000;
+}
+
+/* ===== LOGO ===== */
+header h1 { animation: none; text-shadow: none; display: block; }
+.gv-logo { display: block; height: 62px; width: auto; transform: rotate(-2deg); transform-origin: left center; }
+
+/* ===== CLEANER BACKGROUND (no more neon blobs) ===== 
+:root { --bg: #121018; }
+html { background: var(--bg); }
+
+body::before {
+  animation: none;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% -10%, rgba(139, 92, 255, 0.22), transparent 55%),
+    radial-gradient(circle, rgba(255, 255, 255, 0.06) 1px, transparent 1.5px) 0 0 / 22px 22px;
+}
+    */
+
+/* ===== LEAN / MIAMI DRIP BACKGROUND ===== */
+:root { --bg: #0b0910; }
+html { background: var(--bg); }
+
+/* layer 1: lean glow (pink -> purple), faint Miami teal, deep base */
+body::before {
+  animation: none;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 90% 45% at 50% 108%, rgba(255, 79, 163, 0.38), transparent 70%),
+    radial-gradient(ellipse 80% 40% at 50% -8%, rgba(107, 67, 206, 0.3), transparent 70%),
+    radial-gradient(ellipse 40% 30% at 105% 45%, rgba(61, 242, 255, 0.10), transparent 70%),
+    linear-gradient(180deg, #0f0c18, #0b0910);
+}
+
+/* layer 2: tone-on-tone gem + sparkle pattern, with a fine speckle */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' fill='none' stroke='%23ffffff' stroke-opacity='0.07' stroke-width='1.4' stroke-linejoin='round'%3E%3Cpath d='M12 18 L20 10 L28 18 L20 30Z M12 18 H28'/%3E%3Cpath d='M60 50 L63 57 L70 60 L63 63 L60 70 L57 63 L50 60 L57 57Z'/%3E%3Ccircle cx='60' cy='20' r='3'/%3E%3Ccircle cx='20' cy='60' r='3'/%3E%3C/svg%3E");
+  background-size: 160px 160px, 80px 80px;
+  opacity: 0.55;
 }
