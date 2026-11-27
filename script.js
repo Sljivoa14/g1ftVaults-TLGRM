@@ -296,8 +296,37 @@ function renderProfile() {
   `;
 }
 
+// ---------- FEATURED DROP (changes daily) ----------
+function renderFeatured() {
+  const el = document.getElementById("featured");
+  const pool = state.market;
+  if (!pool.length) { el.innerHTML = ""; return; }
+  const g = pool[Math.floor(Date.now() / 86400000) % pool.length];
+  el.innerHTML = `
+    <div class="feat-card" style="--c:${g.color}" onclick="openDetail(${g.id})">
+      <div class="sparkles"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="feat-text">
+        <span class="feat-tag">${ico("upgrade")}Featured drop</span>
+        <h3>${esc(g.name)}</h3>
+        <p class="muted">${g.serial}</p>
+        <span class="feat-price">${ico("gem")}${g.price}</span>
+      </div>
+      <div class="feat-art">${art(g)}</div>
+    </div>`;
+}
+
 function updateBalance() {
-  document.getElementById("balanceVal").textContent = state.balance.toFixed(1);
+  const el = document.getElementById("balanceVal");
+  const next = state.balance.toFixed(1);
+  if (el.textContent !== next) {
+    el.textContent = next;
+    const pill = document.querySelector(".balance");
+    pill.classList.remove("bump");
+    void pill.offsetWidth;
+    pill.classList.add("bump");
+  } else {
+    el.textContent = next;
+  }
 }
 
 function renderAll() {
@@ -306,10 +335,14 @@ function renderAll() {
   renderUpgrade();
   renderProfile();
   updateBalance();
+  renderFeatured();
 }
 
 // ---------- TABS ----------
 function showView(name) {
+  if (name === "market") {
+    renderFeatured();
+  }
   document.querySelectorAll(".view").forEach(v => v.classList.toggle("active", v.id === "view-" + name));
   document.querySelectorAll("nav .tab").forEach(t => t.classList.toggle("active", t.dataset.view === name));
   sheet.classList.remove("open");
