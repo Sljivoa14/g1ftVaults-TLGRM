@@ -174,7 +174,7 @@ function cardHTML(g, actions, i = 0, animate = false) {
     : "";
   // --fd: each character floats out of sync with the others
   return `
-      <div class="card${animate ? " pop" : ""}${g.rarity ? " r-" + g.rarity.toLowerCase() : ""}" style="--c:${g.color};--d:${(i * 0.06).toFixed(2)}s;--fd:${(-i * 0.7).toFixed(1)}s">
+      <div data-id="${g.id}" class="card${animate ? " pop" : ""}${g.rarity ? " r-" + g.rarity.toLowerCase() : ""}" style="--c:${g.color};--d:${(i * 0.06).toFixed(2)}s;--fd:${(-i * 0.7).toFixed(1)}s">
       <div class="serial">${g.serial}</div>
       ${tag}
       <div class="art"><div class="sparkles"><i></i><i></i><i></i><i></i><i></i></div><div class="shadow"></div>${art(g)}</div>
@@ -353,6 +353,7 @@ function buy(id) {
       state.inventory.push(g);
       save();
       haptic("success");
+      confetti();
       renderAll();
     });
 }
@@ -374,6 +375,7 @@ function sell(id) {
       state.market.push(g); // demo: it goes back on the market
       save();
       haptic("success");
+      confetti();
       renderAll();
     });
 }
@@ -490,6 +492,62 @@ function resetDemo() {
     });
 }
 
+//  CARD DETAILL POPUP 
+function openDetail(id) {
+  const g = state.market.find(x => x.id === id) || state.inventory.find(x => x.id === id);
+  if (!g) return;
+  const owned = state.inventory.some(x => x.id === id);
+  const tag = g.rarity
+    ? `<div class="rarity-big" style="--r:${RARITY[g.rarity].color}">${g.rarity}</div>`
+    : "";
+  document.getElementById("detailBody").innerHTML = `
+    <div class="dt-hero" style="--c:${g.color}">
+      <div class="sparkles"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="dt-art">${art(g)}</div>
+    </div>
+    <h2>${esc(g.name)}</h2>
+    <p class="muted">${g.serial} · ${esc(g.category)}</p>
+    ${tag}
+    <div class="panel">
+      <div class="odd"><span>Price</span><span style="color:#fff">${ico("gem")} ${g.price} TON</span></div>
+      <div class="odd"><span>Status</span><span style="color:#fff">${owned ? "You own this" : "On the market"}</span></div>
+    </div>
+    <button class="big-btn" onclick="detailAction(${g.id}, ${owned})">${owned ? "Sell for " + g.price : "Buy for " + g.price}</button>
+    <button class="ghost-btn" onclick="closeDetail()">Close</button>
+  `;
+  document.getElementById("detail").classList.add("show");
+  haptic("light");
+}
+
+function closeDetail() {
+  document.getElementById("detail").classList.remove("show");
+}
+
+function detailAction(id, owned) {
+  closeDetail();
+  if (owned) sell(id); else buy(id);
+}
+
+//CONFETTI 
+function confetti() {
+  const wrap = document.createElement("div");
+  wrap.className = "confetti";
+  const colors = ["#ff4fa3", "#3df2ff", "#8b5cff", "#ffd23f", "#5dffb8", "#ffffff"];
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement("i");
+    const angle = Math.random() * Math.PI - Math.PI;   // upward fan
+    const dist = 120 + Math.random() * 200;
+    p.style.setProperty("--dx", Math.cos(angle) * dist + "px");
+    p.style.setProperty("--dy", Math.sin(angle) * dist + 60 + "px");
+    p.style.setProperty("--rot", (Math.random() * 720 - 360) + "deg");
+    p.style.setProperty("--k", colors[i % colors.length]);
+    p.style.animationDelay = (Math.random() * 0.1) + "s";
+    wrap.appendChild(p);
+  }
+  document.body.appendChild(wrap);
+  setTimeout(() => wrap.remove(), 1500);
+}
+
 // ---------- EVENTS ----------
 document.getElementById("search").addEventListener("input", e => {
   query = e.target.value;
@@ -525,6 +583,17 @@ document.querySelectorAll(".opt").forEach(btn => {
 
 document.querySelectorAll("nav .tab").forEach(t => {
   t.addEventListener("click", () => showView(t.dataset.view));
+});
+
+//card tap to open detail popup
+document.addEventListener("click", e => {
+  const card = e.target.closest(".card");
+  if(!card || e.target.closest("button")) return;
+    openDetail(Number(card.dataset.id));
+});
+
+document.getElementById("detail").addEventListener("click", e => {
+  if (e.target.id === "detail") closeDetail();
 });
 
 document.getElementById("revClose").addEventListener("click", () => {

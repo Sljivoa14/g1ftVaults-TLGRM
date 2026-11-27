@@ -807,3 +807,94 @@ nav .ico { width: 24px; height: 24px; display: block; margin: 0 auto 2px; }
 }
 .card.r-epic .sparkles i,
 .card.r-legendary .sparkles i { animation-duration: 1.6s; }
+
+/* ===== CARD DETAIL POPUP ===== */
+.detail {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(5, 4, 12, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.detail.show { display: flex; animation: viewIn 0.2s ease; }
+
+.detail-inner {
+  width: 100%;
+  max-width: 480px;
+  max-height: 92vh;
+  overflow-y: auto;
+  padding: 18px 16px 28px;
+  text-align: center;
+  background: linear-gradient(160deg, rgba(48, 34, 84, 0.97), rgba(16, 12, 32, 0.99));
+  border: var(--glass-border);
+  border-bottom: none;
+  border-radius: 30px 30px 0 0;
+  animation: sheetUp 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+}
+@keyframes sheetUp { from { transform: translateY(60px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+.detail-inner h2 { font-size: 26px; margin-top: 6px; }
+.detail-inner .panel { margin-top: 14px; text-align: left; }
+.detail-inner .odd .ico { width: 15px; height: 15px; vertical-align: -2px; color: var(--cyan); }
+
+.dt-hero {
+  position: relative;
+  height: 230px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 26px;
+  background: var(--glass);
+  border: var(--glass-border);
+}
+.dt-hero::before {
+  content: "";
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: var(--c, var(--violet));
+  filter: blur(55px);
+  opacity: 0.7;
+}
+.dt-art { position: relative; z-index: 1; }
+.dt-art .gift-img,
+.dt-art .gift-svg {
+  height: 200px;
+  width: auto;
+  animation: floaty 3.6s ease-in-out infinite;
+  filter: drop-shadow(0 12px 14px rgba(0, 0, 0, 0.4));
+}
+
+.rarity-big {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 14px;
+  border-radius: 12px;
+  font-weight: 700;
+  color: #000;
+  background: var(--r);
+  box-shadow: 0 0 14px var(--r);
+}
+
+/* ===== CONFETTI ===== */
+.confetti { position: fixed; inset: 0; z-index: 60; pointer-events: none; overflow: hidden; }
+.confetti i {
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  width: 8px;
+  height: 13px;
+  border-radius: 2px;
+  background: var(--k);
+  animation: conf 1.2s ease-out forwards;
+}
+@keyframes conf {
+  from { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+  to   { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); opacity: 0; }
+}
